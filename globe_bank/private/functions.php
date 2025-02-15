@@ -30,4 +30,13 @@ function u($url="") {
 function raw_u($url="") {
   return rawurlencode($url);
 }
+
+/**
+ * Encodes HTML special chars
+ * @param mixed $text Text to encode
+ * @return string Encoded text
+ */
+function h($text= "") {
+  return htmlspecialchars($text);
+}
 ?>
