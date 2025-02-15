@@ -1,8 +1,8 @@
 <?php require_once('../../../private/initialize.php'); ?>
-<?php $page_title = 'View Subject'; ?>
+<?php $page_title = 'View Page'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
-<a href="<?php echo url_for('/staff/pages'); ?>"><< Back To List</a>
+<a href="<?php echo url_for('/staff/subjects'); ?>"><< Back To List</a>
 
 <br />
 
