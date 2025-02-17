@@ -8,7 +8,7 @@
 function url_for($script_path) {
   // add the leading '/' if not present
   if($script_path[0] != '/') {
-    $script_path = "/" . $script_path;
+    $script_path = '/' . $script_path;
   }
   return WWW_ROOT . $script_path;
 }
@@ -38,5 +38,35 @@ function raw_u($url="") {
  */
 function h($text= "") {
   return htmlspecialchars($text);
+}
+
+/**
+ * Sends a 404 Not Found error response to the browser
+ * @return never
+ */
+function error_404() {
+  header($_SERVER['SERVER_PROTOCOL'] . " 404 Not Found");
+  echo "<h1>404 Not Found</h1>";
+  exit;
+}
+
+/**
+ * Sends a 500 Internal Server Error error response to the browser
+ * @return never
+ */
+function error_500() {
+  header($_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error");
+  echo "<h1>500 Internal Server Error</h1>";
+  exit;
+}
+
+/**
+ * Sends a 302 Found redirect response to the browser
+ * @param mixed $url The URL to redirect to
+ * @return never
+ */
+function redirect_to($url) {
+  header("Location: " . url_for($url));
+  exit;
 }
 ?>
