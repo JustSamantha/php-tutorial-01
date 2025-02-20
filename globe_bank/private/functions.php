@@ -66,7 +66,7 @@ function error_500() {
  * @return never
  */
 function redirect_to($url) {
-  header("Location: " . url_for($url));
+  header("Location: " . $url);
   exit;
 }
 ?>
