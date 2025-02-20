@@ -2,7 +2,7 @@
 
 /**
  * Gets the full address for the given script path
- * @param mixed $script_path The path of the file to get the full address to
+ * @param string $script_path The path of the file to get the full address to
  * @return string Full address of the file
  */
 function url_for($script_path) {
@@ -15,7 +15,7 @@ function url_for($script_path) {
 
 /**
  * Encodes the given URL
- * @param mixed $url URL to enconde
+ * @param string $url URL to enconde
  * @return string Encoded URT
  */
 function u($url="") {
@@ -24,7 +24,7 @@ function u($url="") {
 
 /**
  * Raw encodes the given URL
- * @param mixed $url URL to raw enconde
+ * @param string $url URL to raw enconde
  * @return string Encoded URT
  */
 function raw_u($url="") {
@@ -33,7 +33,7 @@ function raw_u($url="") {
 
 /**
  * Encodes HTML special chars
- * @param mixed $text Text to encode
+ * @param string $text Text to encode
  * @return string Encoded text
  */
 function h($text= "") {
@@ -62,11 +62,27 @@ function error_500() {
 
 /**
  * Sends a 302 Found redirect response to the browser
- * @param mixed $url The URL to redirect to
+ * @param string $url The URL to redirect to
  * @return never
  */
 function redirect_to($url) {
   header("Location: " . $url);
   exit;
+}
+
+/**
+ * Returns true when the request method is POST
+ * @return boolean True for POST
+ */
+function is_post_request() {
+  return $_SERVER['REQUEST_METHOD'] === 'POST';
+}
+
+/**
+ * Returns true when the request method is GET
+ * @return boolean True for GET
+ */
+function is_get_request() {
+  return $_SERVER['REQUEST_METHOD'] === 'GET';
 }
 ?>
