@@ -14,6 +14,25 @@
     
     return $result;
   }
+  
+  /**
+   * Gets the subject with the provided id from database
+   * @param  integer $id The id to fetch from database
+   * @return array The data found or empty
+   */
+  function find_subject_by_id($id) {
+    global $db;
+
+    $sql = "SELECT * FROM subjects ";
+    $sql .= "WHERE id = '".$id."' LIMIT 1;";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    
+    $subject = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+
+    return $subject;
+  }
 
   /**
    * Gets all pages from database
