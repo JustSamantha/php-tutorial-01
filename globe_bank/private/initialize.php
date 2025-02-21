@@ -21,5 +21,10 @@
   define("WWW_ROOT", $doc_root);
 
   require_once("functions.php");
+  require_once("database.php");
+  require_once("query_functions.php");
+
+  mysqli_report(MYSQLI_REPORT_OFF);
+  $db = db_connect();
 
 ?>
