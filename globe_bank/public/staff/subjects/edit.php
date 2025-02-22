@@ -10,18 +10,13 @@
   $message = '';
 
   if (is_post_request()) {
-    // Handle form values sent by new.php
-  
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
     $_POST['id'] = $id;
 
     update_subject($_POST);
 
     $message = 'Subject successfully updated';
   }
-  $max_position = find_max_subject_position();
+  $max_position = find_max_subjects_position();
   $subject = find_subject_by_id($id);
 ?>
 <?php $page_title = 'Edit Subject'; ?>

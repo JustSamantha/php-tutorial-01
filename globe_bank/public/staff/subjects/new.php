@@ -2,10 +2,6 @@
   
   require_once('../../../private/initialize.php');
 
-  $menu_name =  '';
-  $position =  '';
-  $visible =  '0';
-  $checked = '';
   $message = '';
 
   if (is_post_request()) {
@@ -19,7 +15,7 @@
     $message = 'Subject successfully created';
   }
 
-  $max_position = find_max_subject_position();
+  $max_position = find_max_subjects_position();
 ?>
 <?php $page_title = 'New Subject'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
