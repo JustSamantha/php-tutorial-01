@@ -44,8 +44,23 @@
    * @return void
    */
   function confirm_result_set($result_set) {
+    global $db;
+    
     if (!$result_set) {
-      exit('Database query failed');
+      exit('Database query failed: '.mysqli_error($db));
+    }
+  }
+
+  /**
+   * Asserts if the insert was successful, exits otherwise
+   * @param  boolean $insert_result The insert result to check
+   * @return void
+   */
+  function confirm_insert($insert_result) {
+    global $db;
+
+    if (!$insert_result) {
+      exit('Insert query failed: '.mysqli_error($db));
     }
   }
 ?>

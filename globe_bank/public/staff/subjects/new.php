@@ -6,6 +6,7 @@
   $position =  '';
   $visible =  '0';
   $checked = '';
+  $message = '';
 
   if (is_post_request()) {
     $menu_name = $_POST['menu_name'] ?? '';
@@ -13,37 +14,37 @@
     $visible = $_POST['visible'] ?? '0';
     $checked = ($_POST['visible']) ? 'checked' : '';
   
-    echo "Form parameters<br />";
-    echo "Menu name: " . $menu_name . "<br />";
-    echo "Position: " . $position . "<br />";
-    echo "Visible: " . $visible . "<br />";
+    insert_subject($menu_name, $position, $visible);
+
+    $message = 'Subject successfully created';
   }
+
+  $max_position = find_max_subject_position();
 ?>
-<?php $page_title = 'Edit Subjec'; ?>
+<?php $page_title = 'New Subject'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
   <a class="back-link" href="<?php echo url_for('/staff/subjects/index.php'); ?>">&laquo; Back to List</a>
 
-  <div class="subject edit">
-    <h1>Edit Subject</h1>
+  <div class="subject create">
+    <h1>New Subject</h1>
 
     <form action="<?php echo url_for('/staff/subjects/new.php'); ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dd><input type="text" name="menu_name" /></dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
             <?php
-              if($position !== '') {
-                echo '<option value="' . $position . '" selected>' . $position . '</option>';
-              } else {
-                echo '<option value="1">1</option>';
+              for ($i=1; $i<=$max_position; $i++) {
+                echo '<option value="' . $i . '">' . $i . '</option>';
               }
+              echo '<option value="' . $i . '" selected>' . $i . '</option>';
             ?>
             
           </select>
@@ -53,14 +54,15 @@
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?php echo $checked; ?> />
+          <input type="checkbox" name="visible" value="1" />
         </dd>
       </dl>
       <div id="operations">
-        <input type="submit" value="Edit Subject" />
+        <input type="submit" value="New Subject" />
       </div>
     </form>
 
+    <div><?php echo $message; ?></div>
   </div>
 
 </div>

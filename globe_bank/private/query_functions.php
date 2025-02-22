@@ -48,4 +48,40 @@
 
     return $result;
   }
+  
+  /**
+   * Inserts a subject into database
+   * @param  string $menu_name menu_name field
+   * @param  integer $position position field
+   * @param  integer $visible visible field
+   * @return boolean True on success
+   */
+  function insert_subject($menu_name, $position, $visible) {
+    global $db;
+
+    $sql = "INSERT INTO subjects(menu_name, position, visible) ";
+    $sql .= "VALUES('".$menu_name."', '".$position."', '".$visible."');";
+    $result = mysqli_query($db, $sql);
+    confirm_insert($result);
+
+    return $result;
+  }
+  
+  /**
+   * Finds the subject's max position to display the dropdown
+   * @return integer The max position found
+   */
+  function find_max_subject_position() {
+    global $db;
+
+    $sql = "SELECT MAX(position) as max FROM subjects ";
+    $sql .= "LIMIT 1;";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    
+    $max_position = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+
+    return $max_position['max'];
+  }
 ?>
