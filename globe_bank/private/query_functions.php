@@ -24,7 +24,7 @@
     global $db;
 
     $sql = "SELECT * FROM subjects ";
-    $sql .= "WHERE id = '".$id."' LIMIT 1;";
+    $sql .= "WHERE id = '".$id."';";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
@@ -51,10 +51,10 @@
   
   /**
    * Inserts a subject into database
-   * @param  string $menu_name menu_name field
-   * @param  integer $position position field
-   * @param  integer $visible visible field
-   * @return boolean True on success
+   * @param  string $menu_name The menu_name field
+   * @param  integer $position The position field
+   * @param  integer $visible The visible field
+   * @return boolean True on success, exits on error
    */
   function insert_subject($menu_name, $position, $visible) {
     global $db;
@@ -62,7 +62,7 @@
     $sql = "INSERT INTO subjects(menu_name, position, visible) ";
     $sql .= "VALUES('".$menu_name."', '".$position."', '".$visible."');";
     $result = mysqli_query($db, $sql);
-    confirm_insert($result);
+    confirm_db_operation($result);
 
     return $result;
   }
@@ -74,8 +74,7 @@
   function find_max_subject_position() {
     global $db;
 
-    $sql = "SELECT MAX(position) as max FROM subjects ";
-    $sql .= "LIMIT 1;";
+    $sql = "SELECT MAX(position) as max FROM subjects;";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
@@ -83,5 +82,22 @@
     mysqli_free_result($result);
 
     return $max_position['max'];
+  }
+
+  /**
+   * Updates a subject into database
+   * @param  Array $subject The array with id, menu_name, position and visible
+   * @return boolean True on success, exits on error
+   */
+  function update_subject($subject) {
+    global $db;
+
+    $sql = "UPDATE subjects SET ";
+    $sql .= "menu_name='".$subject['menu_name']."', position='".$subject['position']."', visible='".$subject['visible']."' ";
+    $sql .= "WHERE id = '".$subject['id']."' LIMIT 1;";
+    $result = mysqli_query($db, $sql);
+    confirm_db_operation($result);
+
+    return $result;
   }
 ?>

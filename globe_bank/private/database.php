@@ -52,15 +52,15 @@
   }
 
   /**
-   * Asserts if the insert was successful, exits otherwise
-   * @param  boolean $insert_result The insert result to check
+   * Asserts if the insert or update query was successful, exits otherwise
+   * @param  boolean $result The result of the query
    * @return void
    */
-  function confirm_insert($insert_result) {
+  function confirm_db_operation($result) {
     global $db;
 
-    if (!$insert_result) {
-      exit('Insert query failed: '.mysqli_error($db));
+    if (!$result) {
+      exit('Query failed: '.mysqli_error($db));
     }
   }
 ?>

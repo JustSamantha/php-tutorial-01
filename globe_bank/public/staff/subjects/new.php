@@ -45,8 +45,7 @@
                 echo '<option value="' . $i . '">' . $i . '</option>';
               }
               echo '<option value="' . $i . '" selected>' . $i . '</option>';
-            ?>
-            
+            ?> 
           </select>
         </dd>
       </dl>

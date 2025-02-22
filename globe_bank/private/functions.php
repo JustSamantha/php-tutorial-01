@@ -75,7 +75,7 @@ function redirect_to($url) {
  * @return boolean True for POST
  */
 function is_post_request() {
-  return $_SERVER['REQUEST_METHOD'] === 'POST';
+  return $_SERVER['REQUEST_METHOD'] == 'POST';
 }
 
 /**
@@ -83,6 +83,6 @@ function is_post_request() {
  * @return boolean True for GET
  */
 function is_get_request() {
-  return $_SERVER['REQUEST_METHOD'] === 'GET';
+  return $_SERVER['REQUEST_METHOD'] == 'GET';
 }
 ?>
