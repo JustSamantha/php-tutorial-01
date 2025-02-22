@@ -98,4 +98,19 @@
 
     return $result;
   }
+  
+  /**
+   * Deletes a subject from database based on the id
+   * @param  mixed $id The id of the subject to delete
+   * @return boolean True on success, exits on error
+   */
+  function delete_subject($id) {
+    global $db;
+
+    $sql = "DELETE FROM subjects WHERE id = '".$id."' LIMIT 1;";
+    $result = mysqli_query($db, $sql);
+    confirm_db_operation($result);
+
+    return $result;
+  }
 ?>
