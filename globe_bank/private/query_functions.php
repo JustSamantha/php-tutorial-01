@@ -51,16 +51,14 @@
   
   /**
    * Inserts a subject into database
-   * @param  string $menu_name The menu_name field
-   * @param  integer $position The position field
-   * @param  integer $visible The visible field
+   * @param  Array $subject The array with menu_name, position and visible
    * @return boolean True on success, exits on error
    */
-  function insert_subject($menu_name, $position, $visible) {
+  function insert_subject($subject) {
     global $db;
 
     $sql = "INSERT INTO subjects(menu_name, position, visible) ";
-    $sql .= "VALUES('".$menu_name."', '".$position."', '".$visible."');";
+    $sql .= "VALUES('".$subject['menu_name']."', '".$subject['position']."', '".$subject['visible']."');";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 

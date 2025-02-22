@@ -14,7 +14,7 @@
     $visible = $_POST['visible'] ?? '0';
     $checked = ($_POST['visible']) ? 'checked' : '';
   
-    insert_subject($menu_name, $position, $visible);
+    insert_subject($_POST);
 
     $message = 'Subject successfully created';
   }
