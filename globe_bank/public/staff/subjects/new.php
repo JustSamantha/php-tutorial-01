@@ -3,6 +3,10 @@
   require_once('../../../private/initialize.php');
 
   $message = '';
+  $menu_name = '';
+  $position = '';
+  $visible = '0';
+  $checked = '';
 
   if (is_post_request()) {
     $menu_name = $_POST['menu_name'] ?? '';
@@ -41,18 +45,22 @@
     <form action="<?php echo url_for('/staff/subjects/new.php'); ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" /></dd>
+        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <?php
+          <?php
               for ($i=1; $i<=$max_position; $i++) {
-                echo '<option value="' . $i . '">' . $i . '</option>';
+                if ($i == $position) {
+                  echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                } else {
+                  echo '<option value="' . $i . '">' . $i . '</option>';
+                }
               }
-              echo '<option value="' . $i . '" selected>' . $i . '</option>';
-            ?> 
+              echo '<option value="' . $i . '">' . $i . '</option>';
+            ?>
           </select>
         </dd>
       </dl>
@@ -60,7 +68,7 @@
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" />
+          <input type="checkbox" name="visible"<?php echo ($visible) ? ' checked ' : ' '; ?>value="1" />
         </dd>
       </dl>
       <div id="operations">

@@ -1,7 +1,7 @@
 <?php
   
   /**
-   * Validates de subject data from an associate array
+   * Validates the subject data from an associate array
    * @param  Array $subject Associate array containing menu_name,
    *                        position and visible fields
    * @return Array An array of error or empty array on success
@@ -146,6 +146,59 @@
   }
 
   /**
+   * Validates the page data from an associate array
+   * @param  Array $page Associate array containing menu_name,
+   *                        subject_id, position, visible and content fields
+   * @return Array An array of error or empty array on success
+   */
+  function validate_page($page) {
+    $errors = [];
+    $page_id = $page['id'] ?? 0;
+    
+    // menu_name
+    if(is_blank($page['menu_name'])) {
+      $errors[] = "Name cannot be blank.";
+    } elseif(!has_length($page['menu_name'], ['min' => 2, 'max' => 255])) {
+      $errors[] = "Name must be between 2 and 255 characters.";
+    }
+    $page_menu_name_unique = has_unique_page_menu_name($page['menu_name'], $page_id);
+    if (!$page_menu_name_unique) {
+      $errors[] = "Menu name exists in database";
+    }
+
+    // subject_id
+    // Make sure we are working with an integer
+    $postion_int = (int) $page['subject_id'];
+    if($postion_int <= 0) {
+      $errors[] = "Subject needs a selection";
+    }
+
+    // position
+    // Make sure we are working with an integer
+    $postion_int = (int) $page['position'];
+    if($postion_int <= 0) {
+      $errors[] = "Position must be greater than zero.";
+    }
+    if($postion_int > 999) {
+      $errors[] = "Position must be less than 999.";
+    }
+
+    // visible
+    // Make sure we are working with a string
+    $visible_str = (string) $page['visible'];
+    if(!has_inclusion_of($visible_str, ["0","1"])) {
+      $errors[] = "Visible must be true or false.";
+    }
+
+    // content
+    if(is_blank($page['content'])) {
+      $errors[] = "Content cannot be blank.";
+    }
+
+    return $errors;
+  }
+
+  /**
    * Gets all pages from database
    * @return Array The pages found on database
    */
@@ -173,10 +226,44 @@
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
-    $subject = mysqli_fetch_assoc($result);
+    $page = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
 
-    return $subject;
+    return $page;
+  }
+
+  /**
+   * Gets the page with the provided menu_name from database
+   * @param  integer $menu_name The menu_name to fetch from database
+   * @return array The data found or empty
+   */
+  function find_page_by_menu_name($menu_name) {
+    global $db;
+
+    $sql = "SELECT * FROM pages ";
+    $sql .= "WHERE menu_name = '".$menu_name."';";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    
+    $page = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+
+    return $page;
+  }
+
+  function has_unique_page_menu_name($menu_name, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM pages ";
+    $sql .= "WHERE menu_name = '".$menu_name."' ";
+    $sql .= "AND id != '".$current_id."'";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    
+    $num_rows = mysqli_num_rows($result);
+    mysqli_free_result($result);
+
+    return $num_rows === 0;
   }
 
   /**
@@ -186,6 +273,11 @@
    */
   function insert_page($page) {
     global $db;
+
+    $errors = validate_page($page);
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     $sql = "INSERT INTO pages(subject_id, menu_name, position, visible, content) ";
     $sql .= "VALUES('".$page['subject_id']."', '".$page['menu_name']."', ";
@@ -204,6 +296,11 @@
    */
   function update_page($page) {
     global $db;
+
+    $errors = validate_page($page);
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     $sql = "UPDATE pages SET ";
     $sql .= "subject_id='".$page['subject_id']."', menu_name='".$page['menu_name']."', ";

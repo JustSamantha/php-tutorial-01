@@ -15,14 +15,20 @@
     $visible = $_POST['visible'] ?? '0';
     $checked = ($_POST['visible']) ? 'checked' : '';
     $_POST['id'] = $id;
+    $page = $_POST;    
   
-    update_page($_POST);
+    $result = update_page($_POST);
 
-    $message = 'Page successfully updated';
+    if ($result === true) {
+      $message = 'Page successfully updated';
+    } else {
+      $errors = $result;
+    }
+  } else {
+    $page = find_page_by_id($id);
   }
   $max_position = find_max_pages_position();
   $subjects = find_all_subjects();
-  $page = find_page_by_id($id);
 ?>
 <?php $page_title = 'Edit Page'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
@@ -33,6 +39,14 @@
 
   <div class="page edit">
     <h1>Edit Page</h1>
+
+    <?php
+      if ($message !== '') {
+        echo '<div>'.$message.'</div>';
+      } elseif (count($errors) > 0) {
+        echo display_errors($errors);
+      }
+    ?>
 
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
@@ -87,7 +101,6 @@
         <input type="submit" value="Edit Page" />
       </div>
     </form>
-    <div><?php echo $message; ?></div>
   </div>
 
 </div>
