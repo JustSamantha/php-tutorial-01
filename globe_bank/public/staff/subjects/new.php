@@ -10,11 +10,14 @@
     $visible = $_POST['visible'] ?? '0';
     $checked = ($_POST['visible']) ? 'checked' : '';
   
-    insert_subject($_POST);
+    $result = insert_subject($_POST);
 
-    $message = 'Subject successfully created';
+    if ($result === true) {
+      $message = 'Subject successfully created';
+    } else {
+      $errors = $result;
+    }
   }
-
   $max_position = find_max_subjects_position();
 ?>
 <?php $page_title = 'New Subject'; ?>
@@ -26,6 +29,14 @@
 
   <div class="subject create">
     <h1>New Subject</h1>
+
+    <?php
+      if ($message !== '') {
+        echo '<div>'.$message.'</div>';
+      } elseif (count($errors) > 0) {
+        echo display_errors($errors);
+      }
+    ?>
 
     <form action="<?php echo url_for('/staff/subjects/new.php'); ?>" method="post">
       <dl>
@@ -56,8 +67,6 @@
         <input type="submit" value="New Subject" />
       </div>
     </form>
-
-    <div><?php echo $message; ?></div>
   </div>
 
 </div>

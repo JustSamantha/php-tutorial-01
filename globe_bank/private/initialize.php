@@ -23,8 +23,11 @@
   require_once("functions.php");
   require_once("database.php");
   require_once("query_functions.php");
+  require_once("validation_functions.php");
 
   mysqli_report(MYSQLI_REPORT_OFF);
   $db = db_connect();
+  
+  $errors = [];
 
 ?>
