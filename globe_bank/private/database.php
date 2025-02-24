@@ -63,4 +63,14 @@
       exit('Query failed: '.mysqli_error($db));
     }
   }
+  
+  /**
+   * Escapes the provided query or string for SQL Injection
+   * @param  Connection $db The connection to the database
+   * @param  string $query The string to escape
+   * @return string The escaped string
+   */
+  function db_escape($db, $query) {
+    return mysqli_real_escape_string($db, $query);
+  }
 ?>

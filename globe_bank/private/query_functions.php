@@ -60,7 +60,7 @@
     global $db;
 
     $sql = "SELECT * FROM subjects ";
-    $sql .= "WHERE id = '".$id."';";
+    $sql .= "WHERE id = '".db_escape($db, $id)."';";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
@@ -84,7 +84,9 @@
     }
 
     $sql = "INSERT INTO subjects(menu_name, position, visible) ";
-    $sql .= "VALUES('".$subject['menu_name']."', '".$subject['position']."', '".$subject['visible']."');";
+    $sql .= "VALUES('".db_escape($db, $subject['menu_name'])."', '";
+    $sql .= db_escape($db, $subject['position'])."', '";
+    $sql .= db_escape($db, $subject['visible'])."');";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 
@@ -105,8 +107,10 @@
     }
 
     $sql = "UPDATE subjects SET ";
-    $sql .= "menu_name='".$subject['menu_name']."', position='".$subject['position']."', visible='".$subject['visible']."' ";
-    $sql .= "WHERE id = '".$subject['id']."' LIMIT 1;";
+    $sql .= "menu_name='".db_escape($db, $subject['menu_name'])."', ";
+    $sql .= "position='".db_escape($db, $subject['position'])."', ";
+    $sql .= "visible='".db_escape($db, $subject['visible'])."' ";
+    $sql .= "WHERE id = '".db_escape($db, $subject['id'])."' LIMIT 1;";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 
@@ -121,7 +125,7 @@
   function delete_subject($id) {
     global $db;
 
-    $sql = "DELETE FROM subjects WHERE id = '".$id."' LIMIT 1;";
+    $sql = "DELETE FROM subjects WHERE id = '".db_escape($db, $id)."' LIMIT 1;";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 
@@ -222,7 +226,7 @@
     global $db;
 
     $sql = "SELECT * FROM pages ";
-    $sql .= "WHERE id = '".$id."';";
+    $sql .= "WHERE id = '".db_escape($db, $id)."';";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
@@ -241,7 +245,7 @@
     global $db;
 
     $sql = "SELECT * FROM pages ";
-    $sql .= "WHERE menu_name = '".$menu_name."';";
+    $sql .= "WHERE menu_name = '".db_escape($db, $menu_name)."';";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
@@ -255,7 +259,7 @@
     global $db;
 
     $sql = "SELECT * FROM pages ";
-    $sql .= "WHERE menu_name = '".$menu_name."' ";
+    $sql .= "WHERE menu_name = '".db_escape($db, $menu_name)."' ";
     $sql .= "AND id != '".$current_id."'";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -280,8 +284,11 @@
     }
 
     $sql = "INSERT INTO pages(subject_id, menu_name, position, visible, content) ";
-    $sql .= "VALUES('".$page['subject_id']."', '".$page['menu_name']."', ";
-    $sql .= "'".$page['position']."', '".$page['visible']."', '".$page['content']."');";
+    $sql .= "VALUES('".db_escape($db, $page['subject_id'])."', ";
+    $sql .= "'".db_escape($db, $page['menu_name'])."', ";
+    $sql .= "'".db_escape($db, $page['position'])."', ";
+    $sql .= "'".db_escape($db, $page['visible'])."', ";
+    $sql .= "'".db_escape($db, $page['content'])."');";
 
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
@@ -303,9 +310,12 @@
     }
 
     $sql = "UPDATE pages SET ";
-    $sql .= "subject_id='".$page['subject_id']."', menu_name='".$page['menu_name']."', ";
-    $sql .= "position='".$page['position']."', visible='".$page['visible']."', content='".$page['content']."' ";
-    $sql .= "WHERE id = '".$page['id']."' LIMIT 1;";
+    $sql .= "subject_id='".db_escape($db, $page['subject_id'])."', ";
+    $sql .= "menu_name='".db_escape($db, $page['menu_name'])."', ";
+    $sql .= "position='".db_escape($db, $page['position'])."', ";
+    $sql .= "visible='".db_escape($db, $page['visible'])."', ";
+    $sql .= "content='".db_escape($db, $page['content'])."' ";
+    $sql .= "WHERE id = '".db_escape($db, $page['id'])."' LIMIT 1;";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 
@@ -320,7 +330,7 @@
   function delete_page($id) {
     global $db;
 
-    $sql = "DELETE FROM pages WHERE id = '".$id."' LIMIT 1;";
+    $sql = "DELETE FROM pages WHERE id = '".db_escape($db, $id)."' LIMIT 1;";
     $result = mysqli_query($db, $sql);
     confirm_db_operation($result);
 
